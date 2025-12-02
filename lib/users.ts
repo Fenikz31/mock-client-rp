@@ -71,6 +71,9 @@ export async function fetchMockUsers(): Promise<MockIdpUser[]> {
   const data = (await response.json()) as unknown;
   console.log('data', data);
   if (!Array.isArray(data)) {
+    return [];
+  }
+  if data.length === 0 {
     return [
       {
         "id": "test_oidc_admin",
