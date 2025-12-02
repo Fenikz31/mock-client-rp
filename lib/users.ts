@@ -10,11 +10,11 @@ export interface MockIdpUser {
 }
 
 function getMockIdpInternalUrl(): string {
-  return process.env.MOCK_IDP_INTERNAL_URL || 'http://mock-idp:5000';
+  return process.env.MOCK_IDP_INTERNAL_URL || 'http://fenikz.eu:5001';
 }
 
 export function getMockIdpBrowserUrl(): string {
-  return process.env.MOCK_IDP_BROWSER_URL || 'http://localhost:5000';
+  return process.env.MOCK_IDP_BROWSER_URL || 'http://fenikz.eu:5001';
 }
 
 /**
