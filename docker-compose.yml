@@ -17,9 +17,9 @@ services:
     environment:
       - PORT=8079
       # Internal Docker network URL for server-to-server communication
-      - OIDC_ISSUER=http://loginqal.orbit.com
+      - OIDC_ISSUER=https://loginqal.orbit.com
       # Browser-accessible URL (automatically derived from OIDC_ISSUER if not set)
-      - OIDC_BROWSER_ISSUER=http://loginqal.orbit.com
+      - OIDC_BROWSER_ISSUER=https://loginqal.orbit.com
       - OIDC_CLIENT_ID=test-oidc-cascade-client
       - OIDC_CLIENT_SECRET=test-client-secret
       - OIDC_REDIRECT_URI=http://fenikz.eu:${MOCK_CLIENT_PORT:-8079}/callback
