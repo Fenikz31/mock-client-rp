@@ -26,6 +26,11 @@ export async function fetchMockUsers(): Promise<MockIdpUser[]> {
     cache: 'no-store',
   });
 
+  console.log('response', response);
+  console.log('response.ok', response.ok);
+  console.log('response.status', response.status);
+  console.log('response.statusText', response.statusText);
+
   if (!response.ok) {
     const text = await response.text();
     // throw new Error(`Failed to load mock users: ${response.status} ${response.statusText} - ${text}`);
