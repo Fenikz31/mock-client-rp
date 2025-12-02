@@ -1,0 +1,40 @@
+services:
+  # Mock OIDC Relying Party Client for testing OIDC cascade workflow
+  mock-client-rp:
+    build:
+      context: ../../../mock-client-rp
+      dockerfile: Dockerfile
+      args:
+        # Set to true to bypass SSL verification (useful with Cloudflare WARP VPN)
+        APK_INSECURE: ${APK_INSECURE:-false}
+    container_name: mock-client-rp-dev
+    # Use production mode (npm start) - the image contains built files, not source files
+    # For development with hot-reload, mount source files as volumes and use npm run dev
+    env_file:
+      - .env
+    ports:
+      - "${MOCK_CLIENT_PORT:-8079}:8079"
+    environment:
+      - PORT=8079
+      # Internal Docker network URL for server-to-server communication
+      - OIDC_ISSUER=http://loginqal.orbit.com
+      # Browser-accessible URL (automatically derived from OIDC_ISSUER if not set)
+      - OIDC_BROWSER_ISSUER=http://loginqal.orbit.com
+      - OIDC_CLIENT_ID=test-oidc-cascade-client
+      - OIDC_CLIENT_SECRET=test-client-secret
+      - OIDC_REDIRECT_URI=http://fenikz.eu:${MOCK_CLIENT_PORT:-8079}/callback
+      - OIDC_SCOPES=openid profile email qp account
+      - MOCK_IDP_INTERNAL_URL=http://fenikz.eu:5001
+      - MOCK_IDP_BROWSER_URL=http://fenikz.eu:${MOCK_IDP_PORT:-5001}
+      - NODE_ENV=production
+    restart: "no"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8079/', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    profiles:
+      - test
+      - oidc-test
+
