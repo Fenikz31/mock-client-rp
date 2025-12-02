@@ -2,7 +2,7 @@ services:
   # Mock OIDC Relying Party Client for testing OIDC cascade workflow
   mock-client-rp:
     build:
-      context: ../../../mock-client-rp
+      context: .
       dockerfile: Dockerfile
       args:
         # Set to true to bypass SSL verification (useful with Cloudflare WARP VPN)
@@ -34,7 +34,4 @@ services:
       timeout: 3s
       retries: 3
       start_period: 10s
-    profiles:
-      - test
-      - oidc-test
 
